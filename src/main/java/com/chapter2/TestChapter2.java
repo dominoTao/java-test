@@ -13,7 +13,19 @@ public class TestChapter2 {
         int[] arr = generator(10);
         System.out.println("原数组：\t"+Arrays.toString(arr ) );
         quickSort(arr, 0, arr.length-1);
-        System.out.println("新数组：\t"+Arrays.toString(arr) );
+        System.out.println("新数组：\t"+Arrays.toString(test(arr)) );
+    }
+    public static int[] test(int[] arr){
+        // 直接插入排序
+        int j;
+        for (int i = 0; i < arr.length; i++) {
+            int temp = arr[i];
+            for (j = i - 1; j >= 0&&arr[j]>temp; j--) {
+                arr[j+1] = arr[j];
+            }
+            arr[j+1] = temp;
+        }
+        return arr;
     }
     public static void quickSort(int sortArray[], int lowIndex, int highIndex){
         // 快速排序
