@@ -1,5 +1,6 @@
 package com.threadDemo;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -10,7 +11,7 @@ import java.util.concurrent.locks.ReentrantLock;
  *  4 可重入锁
  *  5 线程局部变量：使用ThreadLocal管理变量，则每个使用变量的线程都会获得一份该变量的副本。副本之间相互独立，每个线程可以所以改动自己的变量副本，而对其他线程没有影响。
  *  6 阻塞队列
- *  7 信号量
+ *  7 信号量       ：./semaphore/Bank2
  *  8 原子变量
  */
 public class Bank {
@@ -33,6 +34,10 @@ public class Bank {
         }
     }
 
+    public int getAccount() {
+        return account;
+    }
+
     private static ThreadLocal<Integer> account1 = new ThreadLocal<>(){
         @Override
         protected Integer initialValue() {
@@ -41,5 +46,14 @@ public class Bank {
     };
     public void deposit3(int money) {
         account1.set(account1.get()+money);
+    }
+
+    private AtomicInteger account4 = new AtomicInteger( 100 );
+    public void deposit4 (int money) {
+        account4.addAndGet(money);
+    }
+
+    public AtomicInteger getAccount4() {
+        return account4;
     }
 }
