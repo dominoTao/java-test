@@ -17,5 +17,13 @@ public class Test {
         System.out.println(employee2 );
         System.out.println("员工1的信息" );
         System.out.println(employee1 );
+
+
+        Login login = new Login("梁涛", "pass");
+        System.out.println(login );
+
+        Login login1 = login.clone();
+        System.out.println(login1 );
+        System.out.println(login );
     }
 }
