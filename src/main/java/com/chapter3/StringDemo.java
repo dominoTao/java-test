@@ -1,11 +1,16 @@
 package com.chapter3;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
+import java.io.*;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class StringDemo {
 
@@ -13,10 +18,79 @@ public class StringDemo {
     private static final String STR_NUMBER[] = {"零","壹","贰","叁","肆","伍","陆","柒","捌","玖"};
 
     public static void main(String[] args) {
+        test();   
+//        Scanner scanner = new Scanner(System.in);
+//        double v = scanner.nextDouble( );
+//        System.out.println(convert(v) );
+    }
+    public static void test() {
+        String s1 = "";
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(  );
+        try {
+            System.setErr(new PrintStream(byteArrayOutputStream));
+            Integer integer = Integer.valueOf("sdfafef");
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        s1 = byteArrayOutputStream.toString( );
+        if(s1.isEmpty()) {
+            System.out.println("未发生异常" );
+        }else{
+            System.out.println("出错了" + s1);
+        }
+        System.nanoTime();
+    }
+    public static void test5(){
+        String str = "很多要用到正则表达式的都直接百度，像上次要用正则表达式验证是否是合法的ip";
+        int amount=0;
+        for (int i = 0; i < str.length(); i++) {
+            boolean matches = Pattern.matches("^[\u4E00-\u9FA5]$", str.charAt(i) + "");
+            if(matches) {
+                amount++;
+            }
+        }
+        System.out.println(amount );
+    }
+    public static void test4(){
+        String ip = "192.12.12.12";
+        if(ip.matches("^(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[1-9])\\."
 
+                +"(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."
+
+                +"(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."
+
+                +"(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)$")) {
+            System.out.println(ip );
+            StringBuilder stringBuilder = new StringBuilder(ip);
+            String s = stringBuilder.reverse( ).toString( );
+            System.out.println(s );
+        }
+    }
+    public static void test3(){
+        boolean digits = NumberUtils.isNumber("123.0");
+        boolean digits1 = NumberUtils.isDigits("123.0");
+        System.out.println(digits +"\t"+ digits1);
+    }
+    public static void test2(){
+        // string -> unicode        将字母强制转换为整数类型
         Scanner scanner = new Scanner(System.in);
-        double v = scanner.nextDouble( );
-        System.out.println(convert(v) );
+        String str = scanner.nextLine();
+        char[] chars = str.toCharArray( );
+        StringBuilder stringBuilder = new StringBuilder( );
+        for(char c : chars) {
+            stringBuilder.append((int)c+" ");
+        }
+        System.out.println(stringBuilder.toString() );
+        // unicode -> string
+        // 强制转换成char类型，就能得到对应的编码字符
+    }
+    public static void test1(){
+        Date today = new Date(  );
+        String[] str = {"b","H","I","l","M","S","L","N","p","z","Z","s","Q"};
+        for (int i = 0; i < str.length; i++) {
+            String string = String.format(Locale.US, "%t"+str[i], today);
+            System.out.println( str[i] +"\t"+string);
+        }
     }
     private static String convert(double d){
         DecimalFormat df = new DecimalFormat( "#0.###" );
