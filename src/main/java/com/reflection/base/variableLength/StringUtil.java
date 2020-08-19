@@ -1,4 +1,4 @@
-package com.threadDemo.variableLength;
+package com.reflection.base.variableLength;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
