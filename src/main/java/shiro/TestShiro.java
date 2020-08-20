@@ -2,7 +2,10 @@ package shiro;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authc.pam.AuthenticationStrategy;
+import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
 import org.apache.shiro.config.IniSecurityManagerFactory;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.subject.Subject;
@@ -29,6 +32,9 @@ public class TestShiro {
         // 断言 用户已经登录了
         Assert.assertEquals(true, subject.isAuthenticated() );
         subject.logout();
+//        AuthenticationInfo
+//        AuthenticationStrategy
+//        ModularRealmAuthenticator
     }
 //    org.apache.shiro.realm.Realm
 }
