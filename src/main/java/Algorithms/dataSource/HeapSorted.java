@@ -3,7 +3,7 @@ package Algorithms.dataSource;
 import java.util.Arrays;
 
 /**
- * 堆排序
+ * 堆排序 与 优先队列
  */
 public class HeapSorted {
     public static void main(String[] args) {
@@ -11,6 +11,70 @@ public class HeapSorted {
         sort(arr);
         System.out.println(Arrays.toString(arr));
     }
+
+    /**
+     * 获取大顶堆的根节点值
+     * @param arr
+     * @return
+     */
+    public static int heapMaximum(int[] arr){
+        return arr[0];
+    }
+
+    /**
+     * 去掉并返回arr中的具有最大关键字的元素。
+     * @param arr
+     * @return
+     */
+    public static int heapExtractMax(int[] arr){
+        if(arr.length<=0) {
+//            throw new Exception( "heap underflow" );
+            System.out.println("heap underflow" );
+        }
+        int max = arr[0];
+        int length = arr.length;
+        arr[0] = arr[length];
+        arr[length] = arr[length] - 1;
+        heapify(arr, 0, length);
+        return max;
+    }
+
+    /**
+     * 将元素x的关键字值增加到k，这里假设k的值不小于x的原关键字值。
+     * @param arr
+     * @param i
+     * @param key
+     */
+    public static void heapIncreaseKey(int[] arr, int i, int key) {
+        if(key < arr[0]){
+            System.out.println("new key is smaller than current key" );
+        }
+        arr[i] = key;
+        int parent = parent(i);
+        while(i>1 && arr[parent] < arr[i]) {
+            swap(arr, i, parent);
+            i = parent;
+        }
+    }
+
+    /**
+     * 把元素x插入集合arr中。
+     * @param arr
+     * @param key
+     */
+    public static void maxHeapInsert(int[] arr, int key) {
+        int heapSize = arr.length + 1;
+        arr[heapSize] = (int) Double.NEGATIVE_INFINITY;
+        heapIncreaseKey(arr, heapSize, key);
+    }
+    private static int parent(int i){
+        return (int)Math.floor(i/2);
+    }
+
+    /**
+     * 堆排序
+     * @param arr
+     */
     public static void sort(int[] arr) {
         if(arr == null || arr.length == 0) {
             return ;
@@ -38,7 +102,8 @@ public class HeapSorted {
     }
 
     /**
-     * 从i开始调整，到len为止，将i节点的值换成其与两个子节点中最大的值
+     * 堆化:从i开始调整，到len为止，将i节点的值换成其与两个子节点中最大的值
+     * 时间复杂度：O(lgn)
      * @param arr
      * @param i
      * @param len
