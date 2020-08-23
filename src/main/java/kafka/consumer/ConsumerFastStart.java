@@ -1,8 +1,11 @@
 package kafka.consumer;
 
+import kafka.entry.Company;
+import kafka.util.CompanyDeserializer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
 import java.time.Duration;
@@ -19,19 +22,21 @@ public class ConsumerFastStart {
 
     public static void main(String[] args) {
         Properties properties = new Properties(  );
-        properties.put("key.deserializer", StringDeserializer.class.getName());
-        properties.put("value.deserializer", StringDeserializer.class.getName());
-        properties.put("bootstrap.servers", BROKER_LIST);
+        properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+        //TODO value 的反序列胡器需要重写
+        properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, CompanyDeserializer.class.getName());
+        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BROKER_LIST);
         properties.put("group.id", GROUP_ID);
 
-        KafkaConsumer<String,String> consumer = new KafkaConsumer<>(properties);
+        KafkaConsumer<String,Company> consumer = new KafkaConsumer<>(properties);
         // 订阅主题
         consumer.subscribe(Collections.singleton(TOPIC));
         // 循环消费消息
         while(true) {
-            ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(1000 ));
-            for (ConsumerRecord<String,String> record : records) {
-                System.out.println(record.value() );
+            ConsumerRecords<String, Company> records = consumer.poll(Duration.ofMillis(1000 ));
+            for (ConsumerRecord<String, Company> record : records) {
+                Company value = record.value( );
+                System.out.println(value.toString() );
             }
         }
     }
