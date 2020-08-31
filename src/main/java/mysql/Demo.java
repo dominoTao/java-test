@@ -11,7 +11,11 @@ public class Demo {
 //        list = distincted(list);
 //
 //        System.out.println(list );
+
+
+
     }
+
     public static List<Integer> distincted(List<Integer> list){
         List<Integer> l = new ArrayList<>( list.size() );
         for (Integer i : list) {
